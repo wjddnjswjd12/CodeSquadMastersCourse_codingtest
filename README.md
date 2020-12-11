@@ -6,6 +6,21 @@ cube 라는 객체 생성 후
 
 1. initialCube에 맨 위에 미리보기로 띄울 값을 넣었습니다.
 
+```Javascript
+script>
+      var cube = {
+        initialCube: [
+          ["R", "R", "W"],
+          ["G", "C", "W"],
+          ["G", "B", "B"],
+        ],
+        arr2: [
+          ["R", "R", "W"],
+          ["G", "C", "W"],
+          ["G", "B", "B"],
+        ],
+```
+
 2. 그 후 직접적으로 변화를 줄 arr2라는 객체에 initialCube와 같은 값들을 넣었습니다.
 
 3. cube.word 에 prompt 로 입력을 받고, wordSplit 이라는 메소드로 하나씩 분리했습니다.
