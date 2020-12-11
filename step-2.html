@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>step-2</title>
+  </head>
+  <body>
+    <script>
+      var cube = {
+        arr: [
+          ["R", "R", "W"],
+          ["G", "C", "W"],
+          ["G", "B", "B"],
+        ],
+      };
+
+      cube.showCube = function () {
+        for (var i = 0; i < this.arr.length; i++) {
+          document.write(this.arr[i].join(" ") + "<br>");
+        }
+      };
+      cube.moveCube = function (alpha) {};
+      cube.showCube();
+    </script>
+  </body>
+</html>
