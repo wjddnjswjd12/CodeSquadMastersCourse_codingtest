@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>코딩테스트 문제1</title>
+  </head>
+  <body>
+    <script>
+      var word = prompt("단어를 입력하시오:");
+      var num = Number(prompt("정수를 입력하시오"));
+      var position = prompt("L또는 R 을 입력하시오(대소문자 상관 없음)");
+      var a;
+
+      var temp = word.split("");
+      if (num >= 0) {
+        for (var i = 0; i < num; i++) {
+          if (position === "L" || position === "l") {
+            a = temp.shift();
+            temp.push(a);
+          } else if (position === "R" || position === "r") {
+            a = temp.pop();
+            temp.unshift(a);
+          } else document.write("L,R 외의 문자를 입력하셨습니다.");
+        }
+      }
+
+      document.write(temp.join(""));
+    </script>
+  </body>
+</html>
