@@ -21,7 +21,18 @@
           } else document.write("L,R 외의 문자를 입력하셨습니다.");
         }
       }
-
+      if (num < 0) {
+        num = Math.abs(num);
+        for (var i = 0; i < num; i++) {
+          if (position === "L" || position === "l") {
+            a = temp.pop();
+            temp.unshift(a);
+          } else if (position === "R" || position === "r") {
+            a = temp.shift();
+            temp.push(a);
+          } else document.write("L,R 외의 문자를 입력하셨습니다.");
+        }
+      }
       document.write(temp.join(""));
     </script>
   </body>
