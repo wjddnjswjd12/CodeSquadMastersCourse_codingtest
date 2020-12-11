@@ -1,5 +1,5 @@
 # CodeSquadMastersCourse_codingtest
 
-코드스쿼드 마스터즈 코스 코딩테스트
+#코드스쿼드 마스터즈 코스 코딩테스트2
 
-readme
+cube 라는 객체 생성 후
