@@ -17,26 +17,56 @@
         ],
         word: prompt("CUBE> (입력 가능:U , U' , R , R' , L , L' , B , B' , Q)"),
         showCube: function (array) {
+          document.write(this.word + "<br>");
           for (var i = 0; i < array.length; i++) {
             document.write(array[i].join(" ") + "<br>");
           }
+
           document.write("<br>" + "<br>");
         },
         movecube: function (alpha) {
-          if (alpha === "R") {
-            var temp = this.arr2[0][2];
+          if (alpha === "Q") {
+            return;
+          } else if (alpha == "U") {
+            var a1 = this.arr2[0].shift();
+            this.arr2[0].push(a1);
+          } else if (alpha === "U'") {
+            var a2 = this.arr2[0].pop();
+            this.arr2[0].unshift(a2);
+          } else if (alpha === "R") {
+            var a3 = this.arr2[0][2];
             this.arr2[0][2] = this.arr2[1][2];
             this.arr2[1][2] = this.arr2[2][2];
-            this.arr2[2][2] = temp;
+            this.arr2[2][2] = a3;
+          } else if (alpha === "R'") {
+            var a4 = this.arr2[2][2];
+            this.arr2[2][2] = this.arr2[1][2];
+            this.arr2[1][2] = this.arr2[0][2];
+            this.arr2[0][2] = a4;
+          } else if (alpha === "L") {
+            var a5 = this.arr2[2][0];
+            this.arr2[2][0] = this.arr2[1][0];
+            this.arr2[1][0] = this.arr2[0][0];
+            this.arr2[0][0] = a5;
+          } else if (alpha === "L'") {
+            var a5 = this.arr2[0][0];
+            this.arr2[0][0] = this.arr2[1][0];
+            this.arr2[1][0] = this.arr2[2][0];
+            this.arr2[2][0] = a5;
+          } else if (alpha === "B") {
+            var a2 = this.arr2[2].pop();
+            this.arr2[2].unshift(a2);
+          } else if (alpha === "B'") {
+            var a1 = this.arr2[2].shift();
+            this.arr2[2].push(a1);
           }
-          console.log(this.arr2);
 
           return this.arr2;
         },
       };
-
+      var b = cube.movecube(cube.word);
       cube.showCube(cube.initialCube);
-      cube.showCube(cube.moveCube(cube.word));
+      cube.showCube(b);
     </script>
   </body>
 </html>
