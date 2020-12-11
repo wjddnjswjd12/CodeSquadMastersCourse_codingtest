@@ -5,20 +5,38 @@
   <body>
     <script>
       var cube = {
-        arr: [
+        initialCube: [
           ["R", "R", "W"],
           ["G", "C", "W"],
           ["G", "B", "B"],
         ],
+        arr2: [
+          ["R", "R", "W"],
+          ["G", "C", "W"],
+          ["G", "B", "B"],
+        ],
+        word: prompt("CUBE> (입력 가능:U , U' , R , R' , L , L' , B , B' , Q)"),
+        showCube: function (array) {
+          for (var i = 0; i < array.length; i++) {
+            document.write(array[i].join(" ") + "<br>");
+          }
+          document.write("<br>" + "<br>");
+        },
+        movecube: function (alpha) {
+          if (alpha === "R") {
+            var temp = this.arr2[0][2];
+            this.arr2[0][2] = this.arr2[1][2];
+            this.arr2[1][2] = this.arr2[2][2];
+            this.arr2[2][2] = temp;
+          }
+          console.log(this.arr2);
+
+          return this.arr2;
+        },
       };
 
-      cube.showCube = function () {
-        for (var i = 0; i < this.arr.length; i++) {
-          document.write(this.arr[i].join(" ") + "<br>");
-        }
-      };
-      cube.moveCube = function (alpha) {};
-      cube.showCube();
+      cube.showCube(cube.initialCube);
+      cube.showCube(cube.moveCube(cube.word));
     </script>
   </body>
 </html>
