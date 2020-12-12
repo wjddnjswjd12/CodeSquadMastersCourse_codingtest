@@ -35,8 +35,8 @@
           ["R", "R", "R"],
           ["R", "R", "R"],
         ],
-        showInitial: function () {
-          this.B.forEach((value) =>
+        showInitial: function (B, W, O, G, Y, R) {
+          B.forEach((value) =>
             document.write(
               "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;" +
                 value.join(" ") +
@@ -44,29 +44,94 @@
             )
           );
           document.write("<br>");
-          for (var i = 0; i < this.W.length; i++) {
+          for (var i = 0; i < W.length; i++) {
             document.write(
-              this.W[i].join(" ") +
+              W[i].join(" ") +
                 "&emsp;&emsp;" +
-                this.O[i].join(" ") +
+                O[i].join(" ") +
                 "&emsp;&emsp;" +
-                this.G[i].join(" ") +
+                G[i].join(" ") +
                 "&emsp;&emsp;" +
-                this.Y[i].join(" ") +
+                Y[i].join(" ") +
                 "<br>"
             );
           }
           document.write("<br>");
-          this.R.forEach((value) =>
+          R.forEach((value) =>
             document.write(
               "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;" +
                 value.join(" ") +
                 "<br>"
             )
           );
+          document.write("<br>" + "<br>");
+        },
+        showCube: function () {},
+        cubeSplitMoveUL: function (a1, a2, a3, a4) {
+          var temp = [];
+          temp.push(a1, a2, a3, a4);
+          var temp2 = [];
+          temp2 = temp.shift();
+          temp.push(temp2);
+          return temp;
+        }, //큐브면 움직이기 방향: 위,왼쪽
+        cubeSplitMoveDR: function (a1, a2, a3, a4) {
+          var temp = [];
+          temp.push(a1, a2, a3, a4);
+          var temp2 = [];
+          temp2 = temp.pop();
+          temp.unshift(temp2);
+          return temp;
+        }, //큐브면 움직이기 방향: 아래,오른쪽
+        moveCube: function (alpha) {
+          if (alpha.includes("U") && !alpha.includes("'")) {
+            var num;
+            alpha[1] ? (num = alpha[1]) : (num = 1); //횟수를 가리키는 숫자가 있다면 num=숫자 아니면 num=1
+            for (var i = 0; i < num; i++) {
+              var arr2 = [];
+              arr2 = this.cubeSplitMoveUL(
+                this.W[0],
+                this.O[0],
+                this.G[0],
+                this.Y[0]
+              );
+
+              this.W[0] = arr2[0];
+              this.O[0] = arr2[1];
+              this.G[0] = arr2[2];
+              this.Y[0] = arr2[3];
+            }
+          } else if (alpha.includes("U'")) {
+            var num;
+            alpha[2] ? (num = alpha[2]) : (num = 1); //횟수를 가리키는 숫자가 있다면 num=숫자 아니면 num=1
+            for (var i = 0; i < num; i++) {
+              var arr2 = [];
+              arr2 = this.cubeSplitMoveDR(
+                this.W[0],
+                this.O[0],
+                this.G[0],
+                this.Y[0]
+              );
+
+              this.W[0] = arr2[0];
+              this.O[0] = arr2[1];
+              this.G[0] = arr2[2];
+              this.Y[0] = arr2[3];
+            }
+          }
+          this.showInitial(this.B, this.W, this.O, this.G, this.Y, this.R);
         },
       };
-      rubiks.showInitial();
+
+      rubiks.showInitial(
+        rubiks.B,
+        rubiks.W,
+        rubiks.O,
+        rubiks.G,
+        rubiks.Y,
+        rubiks.R
+      );
+      rubiks.moveCube("U3");
     </script>
   </body>
 </html>
