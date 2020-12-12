@@ -66,7 +66,6 @@
           );
           document.write("<br>" + "<br>");
         },
-        showCube: function () {},
         cubeSplitMoveUL: function (a1, a2, a3, a4) {
           var temp = [];
           temp.push(a1, a2, a3, a4);
@@ -84,7 +83,52 @@
           return temp;
         }, //큐브면 움직이기 방향: 아래,오른쪽
         moveCube: function (alpha) {
-          if (alpha.includes("U") && !alpha.includes("'")) {
+          if (alpha.includes("F") && !alpha.includes("'")) {
+            //F F2 F3...
+            var num;
+            alpha[1] ? (num = alpha[1]) : (num = 1);
+            for (var i = 0; i < num; i++) {
+              var arr2 = [];
+              arr2 = this.cubeSplitMoveDR(
+                this.B[2],
+                [this.G[0][0], this.G[1][0], this.G[2][0]], //여기 수정해야해
+                this.R[0],
+                [this.W[0][2], this.W[1][2], this.W[2][2]]
+              );
+
+              this.B[2] = arr2[0];
+              this.G[0][0] = arr2[1][0];
+              this.G[1][0] = arr2[1][1];
+              this.G[2][0] = arr2[1][2];
+              this.R[0] = arr2[2];
+              this.W[0][2] = arr2[3][0];
+              this.W[1][2] = arr2[3][1];
+              this.W[2][2] = arr2[3][2];
+            }
+          } else if (alpha.includes("F'")) {
+            //F' F'2 F'3...
+            var num;
+            alpha[2] ? (num = alpha[2]) : (num = 1);
+            for (var i = 0; i < num; i++) {
+              var arr2 = [];
+              arr2 = this.cubeSplitMoveUL(
+                this.B[2],
+                [this.G[0][0], this.G[1][0], this.G[2][0]], //여기 수정해야해
+                this.R[0],
+                [this.W[0][2], this.W[1][2], this.W[2][2]]
+              );
+
+              this.B[2] = arr2[0];
+              this.G[0][0] = arr2[1][0];
+              this.G[1][0] = arr2[1][1];
+              this.G[2][0] = arr2[1][2];
+              this.R[0] = arr2[2];
+              this.W[0][2] = arr2[3][0];
+              this.W[1][2] = arr2[3][1];
+              this.W[2][2] = arr2[3][2];
+            }
+          } else if (alpha.includes("U") && !alpha.includes("'")) {
+            //U U2 U3...
             var num;
             alpha[1] ? (num = alpha[1]) : (num = 1); //횟수를 가리키는 숫자가 있다면 num=숫자 아니면 num=1
             for (var i = 0; i < num; i++) {
@@ -102,6 +146,7 @@
               this.Y[0] = arr2[3];
             }
           } else if (alpha.includes("U'")) {
+            //U' U2' U3'...
             var num;
             alpha[2] ? (num = alpha[2]) : (num = 1); //횟수를 가리키는 숫자가 있다면 num=숫자 아니면 num=1
             for (var i = 0; i < num; i++) {
@@ -131,7 +176,7 @@
         rubiks.Y,
         rubiks.R
       );
-      rubiks.moveCube("U3");
+      rubiks.moveCube("F'");
     </script>
   </body>
 </html>
