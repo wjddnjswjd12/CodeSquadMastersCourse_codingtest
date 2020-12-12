@@ -265,6 +265,64 @@
               this.W[1][0] = arr2[3][1];
               this.W[2][0] = arr2[3][2];
             }
+          } else if (alpha.includes("L") && !alpha.includes("'")) {
+            //L L2 L3...
+            var num;
+            alpha[1] ? (num = alpha[1]) : (num = 1);
+            for (var i = 0; i < num; i++) {
+              var arr2 = [];
+              arr2 = this.cubeSplitMoveDR(
+                [this.B[0][0], this.B[1][0], this.B[2][0]],
+                [this.O[0][0], this.O[1][0], this.O[2][0]],
+                [this.R[0][0], this.R[1][0], this.R[2][0]],
+                [this.Y[0][2], this.Y[1][2], this.Y[2][2]]
+              );
+
+              this.B[0][0] = arr2[0][0];
+              this.B[1][0] = arr2[0][1];
+              this.B[2][0] = arr2[0][2];
+              //
+              this.O[0][0] = arr2[1][0];
+              this.O[1][0] = arr2[1][1];
+              this.O[2][0] = arr2[1][2];
+              //
+              this.R[0][0] = arr2[2][0];
+              this.R[1][0] = arr2[2][1];
+              this.R[2][0] = arr2[2][2];
+              //
+              this.Y[0][2] = arr2[3][0];
+              this.Y[1][2] = arr2[3][1];
+              this.Y[2][2] = arr2[3][2];
+            }
+          } else if (alpha.includes("L'")) {
+            //L' L'2 L'3...
+            var num;
+            alpha[2] ? (num = alpha[2]) : (num = 1);
+            for (var i = 0; i < num; i++) {
+              var arr2 = [];
+              arr2 = this.cubeSplitMoveUL(
+                [this.B[0][0], this.B[1][0], this.B[2][0]],
+                [this.O[0][0], this.O[1][0], this.O[2][0]],
+                [this.R[0][0], this.R[1][0], this.R[2][0]],
+                [this.Y[0][2], this.Y[1][2], this.Y[2][2]]
+              );
+
+              this.B[0][0] = arr2[0][0];
+              this.B[1][0] = arr2[0][1];
+              this.B[2][0] = arr2[0][2];
+              //
+              this.O[0][0] = arr2[1][0];
+              this.O[1][0] = arr2[1][1];
+              this.O[2][0] = arr2[1][2];
+              //
+              this.R[0][0] = arr2[2][0];
+              this.R[1][0] = arr2[2][1];
+              this.R[2][0] = arr2[2][2];
+              //
+              this.Y[0][2] = arr2[3][0];
+              this.Y[1][2] = arr2[3][1];
+              this.Y[2][2] = arr2[3][2];
+            }
           }
           this.showInitial(this.B, this.W, this.O, this.G, this.Y, this.R);
         },
@@ -278,7 +336,7 @@
         rubiks.Y,
         rubiks.R
       );
-      rubiks.moveCube("B'3");
+      rubiks.moveCube("L'");
     </script>
   </body>
 </html>
