@@ -35,7 +35,7 @@
           ["R", "R", "R"],
           ["R", "R", "R"],
         ],
-        showInitial: function (B, W, O, G, Y, R) {
+        showCube: function (B, W, O, G, Y, R) {
           B.forEach((value) =>
             document.write(
               "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;" +
@@ -66,6 +66,37 @@
           );
           document.write("<br>" + "<br>");
         },
+        word: prompt("CUBE>"),
+        wordsplit: function (strings) {
+          var temp = strings.split("");
+          var isNum = /[0-9]/;
+          var isEng = /[a-zA-Z]/; //regex test()메소드
+          var array = [];
+          while (temp.length > 0) {
+            for (var i = 0; i < temp.length; i++) {
+              if (isEng.test(temp[i]) && temp[i + 1] == "'") {
+                if (isNum.test(temp[i + 2])) {
+                  var temp2 = temp.splice(i, 3).join("");
+                  array.push(temp2);
+                } else {
+                  var temp2 = temp.splice(i, 2).join("");
+                  array.push(temp2);
+                }
+                break;
+              } else if (isEng.test(temp[i]) && temp[i + 1] !== "'") {
+                if (isNum.test(temp[i + 1])) {
+                  var temp2 = temp.splice(i, 2).join("");
+                  array.push(temp2);
+                } else {
+                  var temp2 = temp.splice(i, 1).join("");
+                  array.push(temp2);
+                }
+                break;
+              }
+            }
+          }
+          return array;
+        },
         cubeSplitMoveUL: function (a1, a2, a3, a4) {
           var temp = [];
           temp.push(a1, a2, a3, a4);
@@ -83,296 +114,304 @@
           return temp;
         }, //큐브면 움직이기 방향: 아래,오른쪽
         moveCube: function (alpha) {
-          if (alpha.includes("F") && !alpha.includes("'")) {
-            //F F2 F3...
-            var num;
-            alpha[1] ? (num = alpha[1]) : (num = 1); //횟수를 가리키는 숫자가 있다면 num=숫자 아니면 num=1
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveDR(
-                this.B[2],
-                [this.G[0][0], this.G[1][0], this.G[2][0]],
-                this.R[0],
-                [this.W[0][2], this.W[1][2], this.W[2][2]]
-              );
+          for (var x = 0; x < alpha.length; x++) {
+            if (alpha[x].includes("F") && !alpha[x].includes("'")) {
+              //F F2 F3...
+              var num;
+              alpha[x][1] ? (num = alpha[x][1]) : (num = 1); //횟수를 가리키는 숫자가 있다면 num=숫자 아니면 num=1
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveDR(
+                  this.B[2],
+                  [this.G[0][0], this.G[1][0], this.G[2][0]],
+                  this.R[0],
+                  [this.W[0][2], this.W[1][2], this.W[2][2]]
+                );
 
-              this.B[2] = arr2[0];
-              this.G[0][0] = arr2[1][0];
-              this.G[1][0] = arr2[1][1];
-              this.G[2][0] = arr2[1][2];
-              this.R[0] = arr2[2];
-              this.W[0][2] = arr2[3][0];
-              this.W[1][2] = arr2[3][1];
-              this.W[2][2] = arr2[3][2];
-            }
-          } else if (alpha.includes("F'")) {
-            //F' F'2 F'3...
-            var num;
-            alpha[2] ? (num = alpha[2]) : (num = 1);
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveUL(
-                this.B[2],
-                [this.G[0][0], this.G[1][0], this.G[2][0]],
-                this.R[0],
-                [this.W[0][2], this.W[1][2], this.W[2][2]]
-              );
+                this.B[2] = arr2[0];
+                this.G[0][0] = arr2[1][0];
+                this.G[1][0] = arr2[1][1];
+                this.G[2][0] = arr2[1][2];
+                this.R[0] = arr2[2];
+                this.W[0][2] = arr2[3][0];
+                this.W[1][2] = arr2[3][1];
+                this.W[2][2] = arr2[3][2];
+              }
+            } else if (alpha[x].includes("F'")) {
+              //F' F'2 F'3...
+              var num;
+              alpha[x][2] ? (num = alpha[x][2]) : (num = 1);
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveUL(
+                  this.B[2],
+                  [this.G[0][0], this.G[1][0], this.G[2][0]],
+                  this.R[0],
+                  [this.W[0][2], this.W[1][2], this.W[2][2]]
+                );
 
-              this.B[2] = arr2[0];
-              this.G[0][0] = arr2[1][0];
-              this.G[1][0] = arr2[1][1];
-              this.G[2][0] = arr2[1][2];
-              this.R[0] = arr2[2];
-              this.W[0][2] = arr2[3][0];
-              this.W[1][2] = arr2[3][1];
-              this.W[2][2] = arr2[3][2];
-            }
-          } else if (alpha.includes("R") && !alpha.includes("'")) {
-            //R R2 R3...
-            var num;
-            alpha[1] ? (num = alpha[1]) : (num = 1);
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveUL(
-                [this.B[0][2], this.B[1][2], this.B[2][2]],
-                [this.O[0][2], this.O[1][2], this.O[2][2]],
-                [this.R[0][2], this.R[1][2], this.R[2][2]],
-                [this.Y[0][0], this.Y[1][0], this.Y[2][0]]
-              );
+                this.B[2] = arr2[0];
+                this.G[0][0] = arr2[1][0];
+                this.G[1][0] = arr2[1][1];
+                this.G[2][0] = arr2[1][2];
+                this.R[0] = arr2[2];
+                this.W[0][2] = arr2[3][0];
+                this.W[1][2] = arr2[3][1];
+                this.W[2][2] = arr2[3][2];
+              }
+            } else if (alpha[x].includes("R") && !alpha[x].includes("'")) {
+              //R R2 R3...
+              var num;
+              alpha[x][1] ? (num = alpha[x][1]) : (num = 1);
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveUL(
+                  [this.B[0][2], this.B[1][2], this.B[2][2]],
+                  [this.O[0][2], this.O[1][2], this.O[2][2]],
+                  [this.R[0][2], this.R[1][2], this.R[2][2]],
+                  [this.Y[0][0], this.Y[1][0], this.Y[2][0]]
+                );
 
-              this.B[0][2] = arr2[0][0];
-              this.B[1][2] = arr2[0][1];
-              this.B[2][2] = arr2[0][2];
-              //
-              this.O[0][2] = arr2[1][0];
-              this.O[1][2] = arr2[1][1];
-              this.O[2][2] = arr2[1][2];
-              //
-              this.R[0][2] = arr2[2][0];
-              this.R[1][2] = arr2[2][1];
-              this.R[2][2] = arr2[2][2];
-              //
-              this.Y[0][0] = arr2[3][0];
-              this.Y[1][0] = arr2[3][1];
-              this.Y[2][0] = arr2[3][2];
-            }
-          } else if (alpha.includes("R'")) {
-            //R' R'2 R'3...
-            var num;
-            alpha[2] ? (num = alpha[2]) : (num = 1);
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveDR(
-                [this.B[0][2], this.B[1][2], this.B[2][2]],
-                [this.O[0][2], this.O[1][2], this.O[2][2]],
-                [this.R[0][2], this.R[1][2], this.R[2][2]],
-                [this.Y[0][0], this.Y[1][0], this.Y[2][0]]
-              );
+                this.B[0][2] = arr2[0][0];
+                this.B[1][2] = arr2[0][1];
+                this.B[2][2] = arr2[0][2];
+                //
+                this.O[0][2] = arr2[1][0];
+                this.O[1][2] = arr2[1][1];
+                this.O[2][2] = arr2[1][2];
+                //
+                this.R[0][2] = arr2[2][0];
+                this.R[1][2] = arr2[2][1];
+                this.R[2][2] = arr2[2][2];
+                //
+                this.Y[0][0] = arr2[3][0];
+                this.Y[1][0] = arr2[3][1];
+                this.Y[2][0] = arr2[3][2];
+              }
+            } else if (alpha[x].includes("R'")) {
+              //R' R'2 R'3...
+              var num;
+              alpha[x][2] ? (num = alpha[x][2]) : (num = 1);
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveDR(
+                  [this.B[0][2], this.B[1][2], this.B[2][2]],
+                  [this.O[0][2], this.O[1][2], this.O[2][2]],
+                  [this.R[0][2], this.R[1][2], this.R[2][2]],
+                  [this.Y[0][0], this.Y[1][0], this.Y[2][0]]
+                );
 
-              this.B[0][2] = arr2[0][0];
-              this.B[1][2] = arr2[0][1];
-              this.B[2][2] = arr2[0][2];
-              //
-              this.O[0][2] = arr2[1][0];
-              this.O[1][2] = arr2[1][1];
-              this.O[2][2] = arr2[1][2];
-              //
-              this.R[0][2] = arr2[2][0];
-              this.R[1][2] = arr2[2][1];
-              this.R[2][2] = arr2[2][2];
-              //
-              this.Y[0][0] = arr2[3][0];
-              this.Y[1][0] = arr2[3][1];
-              this.Y[2][0] = arr2[3][2];
-            }
-          } else if (alpha.includes("U") && !alpha.includes("'")) {
-            //U U2 U3...
-            var num;
-            alpha[1] ? (num = alpha[1]) : (num = 1);
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveUL(
-                this.W[0],
-                this.O[0],
-                this.G[0],
-                this.Y[0]
-              );
+                this.B[0][2] = arr2[0][0];
+                this.B[1][2] = arr2[0][1];
+                this.B[2][2] = arr2[0][2];
+                //
+                this.O[0][2] = arr2[1][0];
+                this.O[1][2] = arr2[1][1];
+                this.O[2][2] = arr2[1][2];
+                //
+                this.R[0][2] = arr2[2][0];
+                this.R[1][2] = arr2[2][1];
+                this.R[2][2] = arr2[2][2];
+                //
+                this.Y[0][0] = arr2[3][0];
+                this.Y[1][0] = arr2[3][1];
+                this.Y[2][0] = arr2[3][2];
+              }
+            } else if (alpha[x].includes("U") && !alpha[x].includes("'")) {
+              //U U2 U3...
+              var num;
+              alpha[x][1] ? (num = alpha[x][1]) : (num = 1);
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveUL(
+                  this.W[0],
+                  this.O[0],
+                  this.G[0],
+                  this.Y[0]
+                );
 
-              this.W[0] = arr2[0];
-              this.O[0] = arr2[1];
-              this.G[0] = arr2[2];
-              this.Y[0] = arr2[3];
-            }
-          } else if (alpha.includes("U'")) {
-            //U' U2' U3'...
-            var num;
-            alpha[2] ? (num = alpha[2]) : (num = 1); //횟수를 가리키는 숫자가 있다면 num=숫자 아니면 num=1
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveDR(
-                this.W[0],
-                this.O[0],
-                this.G[0],
-                this.Y[0]
-              );
+                this.W[0] = arr2[0];
+                this.O[0] = arr2[1];
+                this.G[0] = arr2[2];
+                this.Y[0] = arr2[3];
+              }
+            } else if (alpha[x].includes("U'")) {
+              //U' U2' U3'...
+              var num;
+              alpha[x][2] ? (num = alpha[x][2]) : (num = 1); //횟수를 가리키는 숫자가 있다면 num=숫자 아니면 num=1
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveDR(
+                  this.W[0],
+                  this.O[0],
+                  this.G[0],
+                  this.Y[0]
+                );
 
-              this.W[0] = arr2[0];
-              this.O[0] = arr2[1];
-              this.G[0] = arr2[2];
-              this.Y[0] = arr2[3];
-            }
-          } else if (alpha.includes("B") && !alpha.includes("'")) {
-            //B B2 B3...
-            var num;
-            alpha[1] ? (num = alpha[1]) : (num = 1);
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveUL(
-                this.B[0],
-                [this.G[0][2], this.G[1][2], this.G[2][2]],
-                this.R[2],
-                [this.W[0][0], this.W[1][0], this.W[2][0]]
-              );
+                this.W[0] = arr2[0];
+                this.O[0] = arr2[1];
+                this.G[0] = arr2[2];
+                this.Y[0] = arr2[3];
+              }
+            } else if (alpha[x].includes("B") && !alpha[x].includes("'")) {
+              //B B2 B3...
+              var num;
+              alpha[x][1] ? (num = alpha[x][1]) : (num = 1);
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveUL(
+                  this.B[0],
+                  [this.G[0][2], this.G[1][2], this.G[2][2]],
+                  this.R[2],
+                  [this.W[0][0], this.W[1][0], this.W[2][0]]
+                );
 
-              this.B[0] = arr2[0];
-              this.G[0][2] = arr2[1][0];
-              this.G[1][2] = arr2[1][1];
-              this.G[2][2] = arr2[1][2];
-              this.R[2] = arr2[2];
-              this.W[0][0] = arr2[3][0];
-              this.W[1][0] = arr2[3][1];
-              this.W[2][0] = arr2[3][2];
-            }
-          } else if (alpha.includes("B'")) {
-            //B' B'2 B'3...
-            var num;
-            alpha[2] ? (num = alpha[2]) : (num = 1);
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveDR(
-                this.B[0],
-                [this.G[0][2], this.G[1][2], this.G[2][2]],
-                this.R[2],
-                [this.W[0][0], this.W[1][0], this.W[2][0]]
-              );
+                this.B[0] = arr2[0];
+                this.G[0][2] = arr2[1][0];
+                this.G[1][2] = arr2[1][1];
+                this.G[2][2] = arr2[1][2];
+                this.R[2] = arr2[2];
+                this.W[0][0] = arr2[3][0];
+                this.W[1][0] = arr2[3][1];
+                this.W[2][0] = arr2[3][2];
+              }
+            } else if (alpha[x].includes("B'")) {
+              //B' B'2 B'3...
+              var num;
+              alpha[x][2] ? (num = alpha[x][2]) : (num = 1);
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveDR(
+                  this.B[0],
+                  [this.G[0][2], this.G[1][2], this.G[2][2]],
+                  this.R[2],
+                  [this.W[0][0], this.W[1][0], this.W[2][0]]
+                );
 
-              this.B[0] = arr2[0];
-              this.G[0][2] = arr2[1][0];
-              this.G[1][2] = arr2[1][1];
-              this.G[2][2] = arr2[1][2];
-              this.R[2] = arr2[2];
-              this.W[0][0] = arr2[3][0];
-              this.W[1][0] = arr2[3][1];
-              this.W[2][0] = arr2[3][2];
-            }
-          } else if (alpha.includes("L") && !alpha.includes("'")) {
-            //L L2 L3...
-            var num;
-            alpha[1] ? (num = alpha[1]) : (num = 1);
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveDR(
-                [this.B[0][0], this.B[1][0], this.B[2][0]],
-                [this.O[0][0], this.O[1][0], this.O[2][0]],
-                [this.R[0][0], this.R[1][0], this.R[2][0]],
-                [this.Y[0][2], this.Y[1][2], this.Y[2][2]]
-              );
+                this.B[0] = arr2[0];
+                this.G[0][2] = arr2[1][0];
+                this.G[1][2] = arr2[1][1];
+                this.G[2][2] = arr2[1][2];
+                this.R[2] = arr2[2];
+                this.W[0][0] = arr2[3][0];
+                this.W[1][0] = arr2[3][1];
+                this.W[2][0] = arr2[3][2];
+              }
+            } else if (alpha[x].includes("L") && !alpha[x].includes("'")) {
+              //L L2 L3...
+              var num;
+              alpha[x][1] ? (num = alpha[x][1]) : (num = 1);
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveDR(
+                  [this.B[0][0], this.B[1][0], this.B[2][0]],
+                  [this.O[0][0], this.O[1][0], this.O[2][0]],
+                  [this.R[0][0], this.R[1][0], this.R[2][0]],
+                  [this.Y[0][2], this.Y[1][2], this.Y[2][2]]
+                );
 
-              this.B[0][0] = arr2[0][0];
-              this.B[1][0] = arr2[0][1];
-              this.B[2][0] = arr2[0][2];
-              //
-              this.O[0][0] = arr2[1][0];
-              this.O[1][0] = arr2[1][1];
-              this.O[2][0] = arr2[1][2];
-              //
-              this.R[0][0] = arr2[2][0];
-              this.R[1][0] = arr2[2][1];
-              this.R[2][0] = arr2[2][2];
-              //
-              this.Y[0][2] = arr2[3][0];
-              this.Y[1][2] = arr2[3][1];
-              this.Y[2][2] = arr2[3][2];
-            }
-          } else if (alpha.includes("L'")) {
-            //L' L'2 L'3...
-            var num;
-            alpha[2] ? (num = alpha[2]) : (num = 1);
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveUL(
-                [this.B[0][0], this.B[1][0], this.B[2][0]],
-                [this.O[0][0], this.O[1][0], this.O[2][0]],
-                [this.R[0][0], this.R[1][0], this.R[2][0]],
-                [this.Y[0][2], this.Y[1][2], this.Y[2][2]]
-              );
+                this.B[0][0] = arr2[0][0];
+                this.B[1][0] = arr2[0][1];
+                this.B[2][0] = arr2[0][2];
+                //
+                this.O[0][0] = arr2[1][0];
+                this.O[1][0] = arr2[1][1];
+                this.O[2][0] = arr2[1][2];
+                //
+                this.R[0][0] = arr2[2][0];
+                this.R[1][0] = arr2[2][1];
+                this.R[2][0] = arr2[2][2];
+                //
+                this.Y[0][2] = arr2[3][0];
+                this.Y[1][2] = arr2[3][1];
+                this.Y[2][2] = arr2[3][2];
+              }
+            } else if (alpha[x].includes("L'")) {
+              //L' L'2 L'3...
+              var num;
+              alpha[x][2] ? (num = alpha[x][2]) : (num = 1);
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveUL(
+                  [this.B[0][0], this.B[1][0], this.B[2][0]],
+                  [this.O[0][0], this.O[1][0], this.O[2][0]],
+                  [this.R[0][0], this.R[1][0], this.R[2][0]],
+                  [this.Y[0][2], this.Y[1][2], this.Y[2][2]]
+                );
 
-              this.B[0][0] = arr2[0][0];
-              this.B[1][0] = arr2[0][1];
-              this.B[2][0] = arr2[0][2];
-              //
-              this.O[0][0] = arr2[1][0];
-              this.O[1][0] = arr2[1][1];
-              this.O[2][0] = arr2[1][2];
-              //
-              this.R[0][0] = arr2[2][0];
-              this.R[1][0] = arr2[2][1];
-              this.R[2][0] = arr2[2][2];
-              //
-              this.Y[0][2] = arr2[3][0];
-              this.Y[1][2] = arr2[3][1];
-              this.Y[2][2] = arr2[3][2];
-            }
-          } else if (alpha.includes("D") && !alpha.includes("'")) {
-            //D D2 D3...
-            var num;
-            alpha[1] ? (num = alpha[1]) : (num = 1);
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveDR(
-                this.W[2],
-                this.O[2],
-                this.G[2],
-                this.Y[2]
-              );
+                this.B[0][0] = arr2[0][0];
+                this.B[1][0] = arr2[0][1];
+                this.B[2][0] = arr2[0][2];
+                //
+                this.O[0][0] = arr2[1][0];
+                this.O[1][0] = arr2[1][1];
+                this.O[2][0] = arr2[1][2];
+                //
+                this.R[0][0] = arr2[2][0];
+                this.R[1][0] = arr2[2][1];
+                this.R[2][0] = arr2[2][2];
+                //
+                this.Y[0][2] = arr2[3][0];
+                this.Y[1][2] = arr2[3][1];
+                this.Y[2][2] = arr2[3][2];
+              }
+            } else if (alpha[x].includes("D") && !alpha[x].includes("'")) {
+              //D D2 D3...
+              var num;
+              alpha[x][1] ? (num = alpha[x][1]) : (num = 1);
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveDR(
+                  this.W[2],
+                  this.O[2],
+                  this.G[2],
+                  this.Y[2]
+                );
 
-              this.W[2] = arr2[0];
-              this.O[2] = arr2[1];
-              this.G[2] = arr2[2];
-              this.Y[2] = arr2[3];
-            }
-          } else if (alpha.includes("D'")) {
-            //D' D2' D3'...
-            var num;
-            alpha[2] ? (num = alpha[2]) : (num = 1); //횟수를 가리키는 숫자가 있다면 num=숫자 아니면 num=1
-            for (var i = 0; i < num; i++) {
-              var arr2 = [];
-              arr2 = this.cubeSplitMoveUL(
-                this.W[2],
-                this.O[2],
-                this.G[2],
-                this.Y[2]
-              );
+                this.W[2] = arr2[0];
+                this.O[2] = arr2[1];
+                this.G[2] = arr2[2];
+                this.Y[2] = arr2[3];
+              }
+            } else if (alpha[x].includes("D'")) {
+              //D' D2' D3'...
+              var num;
+              alpha[x][2] ? (num = alpha[x][2]) : (num = 1); //횟수를 가리키는 숫자가 있다면 num=숫자 아니면 num=1
+              for (var i = 0; i < num; i++) {
+                var arr2 = [];
+                arr2 = this.cubeSplitMoveUL(
+                  this.W[2],
+                  this.O[2],
+                  this.G[2],
+                  this.Y[2]
+                );
 
-              this.W[2] = arr2[0];
-              this.O[2] = arr2[1];
-              this.G[2] = arr2[2];
-              this.Y[2] = arr2[3];
+                this.W[2] = arr2[0];
+                this.O[2] = arr2[1];
+                this.G[2] = arr2[2];
+                this.Y[2] = arr2[3];
+              }
             }
+            document.write("<h3>" + alpha[x] + "</h3>" + "<br>" + "<br>");
+            this.showCube(this.B, this.W, this.O, this.G, this.Y, this.R);
+            document.write("<br>" + "<br>");
           }
-          this.showInitial(this.B, this.W, this.O, this.G, this.Y, this.R);
         },
       };
 
-      rubiks.showInitial(
-        rubiks.B,
-        rubiks.W,
-        rubiks.O,
-        rubiks.G,
-        rubiks.Y,
-        rubiks.R
-      );
-      rubiks.moveCube("D'2");
+      rubiks.main = function () {
+        rubiks.showCube(this.B, this.W, this.O, this.G, this.Y, this.R);
+        var vocabs = this.wordsplit(this.word);
+        if (this.word === "Q") {
+          document.write("CUBE> " + this.word);
+          document.write("Bye~");
+        } else {
+          document.write("CUBE> " + this.word);
+          rubiks.moveCube(vocabs);
+        }
+      };
+
+      rubiks.main();
     </script>
   </body>
 </html>
