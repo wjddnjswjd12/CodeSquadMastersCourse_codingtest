@@ -402,14 +402,14 @@
 
       rubiks.main = function () {
         var start = new Date().getTime();
-        rubiks.showCube(this.B, this.W, this.O, this.G, this.Y, this.R);
+        this.showCube(this.B, this.W, this.O, this.G, this.Y, this.R);
         var vocabs = this.wordsplit(this.word);
         if (this.word === "Q") {
           document.write("CUBE> " + this.word);
           document.write("이용해 주셔서 감사합니다. 뚜뚜뚜.");
         } else {
           document.write("CUBE> " + this.word);
-          rubiks.moveCube(vocabs);
+          this.moveCube(vocabs);
           elapsed = new Date().getTime() - start;
           document.write("소요된 시간: " + elapsed + "초<br>");
           document.write("조작갯수: " + vocabs.length + "<br>");
