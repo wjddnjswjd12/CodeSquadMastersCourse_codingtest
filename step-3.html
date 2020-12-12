@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <title>step-3</title>
+  </head>
+  <body>
+    <script>
+      rubiks = {
+        B: [
+          ["B", "B", "B"],
+          ["B", "B", "B"],
+          ["B", "B", "B"],
+        ],
+        W: [
+          ["W", "W", "W"],
+          ["W", "W", "W"],
+          ["W", "W", "W"],
+        ],
+        O: [
+          ["O", "O", "O"],
+          ["O", "O", "O"],
+          ["O", "O", "O"],
+        ],
+        G: [
+          ["G", "G", "G"],
+          ["G", "G", "G"],
+          ["G", "G", "G"],
+        ],
+        Y: [
+          ["Y", "Y", "Y"],
+          ["Y", "Y", "Y"],
+          ["Y", "Y", "Y"],
+        ],
+        R: [
+          ["R", "R", "R"],
+          ["R", "R", "R"],
+          ["R", "R", "R"],
+        ],
+        showInitial: function () {
+          this.B.forEach((value) =>
+            document.write(
+              "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;" +
+                value.join(" ") +
+                "<br>"
+            )
+          );
+          document.write("<br>");
+          for (var i = 0; i < this.W.length; i++) {
+            document.write(
+              this.W[i].join(" ") +
+                "&emsp;&emsp;" +
+                this.O[i].join(" ") +
+                "&emsp;&emsp;" +
+                this.G[i].join(" ") +
+                "&emsp;&emsp;" +
+                this.Y[i].join(" ") +
+                "<br>"
+            );
+          }
+          document.write("<br>");
+          this.R.forEach((value) =>
+            document.write(
+              "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;" +
+                value.join(" ") +
+                "<br>"
+            )
+          );
+        },
+      };
+      rubiks.showInitial();
+    </script>
+  </body>
+</html>
